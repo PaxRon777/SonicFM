@@ -138,7 +138,7 @@ document.querySelectorAll('.nav-links li').forEach(li => {
 
 // ── API Functions ──
 async function fetchStations(params = {}) {
-  const qs = new URLSearchParams({ ...params, order: 'votes', reverse: 'true' });
+  const qs = new URLSearchParams({ ...params, reverse: 'true' });
   try {
     const res = await fetch(`${API_BASE}/stations/search?${qs}`);
     if (!res.ok) throw new Error('API error');
@@ -151,25 +151,48 @@ async function fetchStations(params = {}) {
 
 async function loadStations(reset = true) {
   if (reset) { currentPage = 0; stationGrid.innerHTML = ''; allStations = []; displayStations = []; }
+  
   const limit = PAGE_SIZE;
   const offset = reset ? 0 : currentPage * PAGE_SIZE;
   const sortVal = sortBySelect.value;
-  const reverseMap = { votes: 'votes', name: 'name', clickcount: 'clickcount' };
+  const orderMap = { votes: 'votes', name: 'name', clickcount: 'clickcount' };
+  const sortOrder = orderMap[sortVal] || 'votes';
 
   loadMoreBtn.disabled = true;
   loadMoreBtn.textContent = 'Loading...';
 
-  const stations = await fetchStations({ limit, offset, order: sortVal === 'votes' ? 'votes' : reverseMap[sortVal] });
+  // Build API params — include search term if present, use order (not sort_by)
+  const apiParams = { limit, offset };
+  
+  // Add active country filter to every request
+  if (currentFilter && currentFilter.type === 'country') {
+    apiParams.countrycode = currentFilter.value;
+  }
+  
+  const search = searchInput?.value?.toLowerCase().trim();
+  if (search) apiParams.name = search;
+  apiParams.order = sortOrder;
+
+  const stations = await fetchStations(apiParams);
   if (stations.length === 0) {
     loadMoreBtn.disabled = true;
     loadMoreBtn.textContent = 'No more stations';
     return;
   }
 
-  allStations.push(...stations);
-  currentPage++;
-  displayStations = [...allStations];
-  renderStations();
+  // Deduplicate by stationuuid before adding to allStations
+  const newStations = stations.filter(s => !allStations.find(existing => existing.stationuuid === s.stationuuid));
+  
+  if (newStations.length > 0) {
+    allStations.push(...newStations);
+    currentPage++;
+    displayStations = [...allStations];
+    renderStations();
+  } else {
+    loadMoreBtn.disabled = true;
+    loadMoreBtn.textContent = 'No more stations';
+  }
+  
   loadMoreBtn.disabled = false;
   loadMoreBtn.textContent = 'Load More Stations';
 }
@@ -452,7 +475,11 @@ favBtn.addEventListener('click', () => {
 
 volumeSlider.addEventListener('input', () => { audioPlayer.volume = volumeSlider.value / 100; });
 
-searchInput.addEventListener('input', renderStations);
+let searchDebounce = null;
+searchInput.addEventListener('input', () => {
+  clearTimeout(searchDebounce);
+  searchDebounce = setTimeout(() => loadStations(true), 400); // debounce to avoid excessive API calls
+});
 countrySearchInput.addEventListener('input', renderCountries);
 sortBySelect.addEventListener('change', () => loadStations(true));
 loadMoreBtn.addEventListener('click', () => loadStations(false));
