@@ -415,6 +415,7 @@ function togglePlay() {
   if (isPlaying) {
     audioPlayer.pause();
     isPlaying = false;
+    updatePlayerUI();
   } else {
     audioPlayer.play().then(() => {
       isPlaying = true;
@@ -430,7 +431,9 @@ function updatePlayerUI() {
   miniPanelName.textContent = name;
   
   // Play button state
-  playBtn.textContent = isPlaying ? '⏸' : '▶';
+  playBtn.innerHTML = isPlaying
+    ? '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/></svg>'
+    : '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6,3 20,12 6,21"/></svg>';
 
   // Favourite button — normalize uuid from stationuuid to uuid for consistency
   const uuid = currentStation?.stationuuid || '';

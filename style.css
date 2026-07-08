@@ -273,8 +273,9 @@ body {
 }
 
 .btn-icon:hover { background: var(--surface-3); color: var(--text-primary); }
-.btn-play { width: 48px; height: 48px; font-size: 1.2rem; color: var(--accent); border-radius: 50%; background: var(--accent-glow); }
+.btn-play { width: 48px; height: 48px; color: var(--accent); border-radius: 50%; background: var(--accent-glow); }
 .btn-play:hover { background: var(--accent-glow-strong); transform: scale(1.05); }
+.btn-play svg { width: 20px; height: 20px; }
 
 /* Fav button in player bar — larger heart */
 .player-controls .btn-fav {
