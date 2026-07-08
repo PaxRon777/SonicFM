@@ -176,8 +176,23 @@ async function loadStations(reset = true) {
     return;
   }
 
-  // Deduplicate by stationuuid before adding to allStations
-  const newStations = stations.filter(s => !allStations.find(existing => existing.stationuuid === s.stationuuid));
+  // Deduplicate by normalized name — API returns same station under multiple UUIDs with different stream URLs
+  function normalizeName(name) {
+    return (name || '').trim().toLowerCase().replace(/\s*[-–—]\s*(official|stream|radio|live|hd|fm|am|web)\s*/gi, '').replace(/\s+/g, ' ');
+  }
+
+  // Deduplicate within the current batch first
+  const seenInBatch = new Set();
+  const dedupedBatch = stations.filter(s => {
+    const key = normalizeName(s.name);
+    if (seenInBatch.has(key)) return false;
+    seenInBatch.add(key);
+    return true;
+  });
+
+  // Then deduplicate against previously loaded stations
+  const seenNames = new Set(allStations.map(s => normalizeName(s.name)));
+  const newStations = dedupedBatch.filter(s => !seenNames.has(normalizeName(s.name)));
   
   if (newStations.length > 0) {
     allStations.push(...newStations);
@@ -232,12 +247,24 @@ function createStationCard(station) {
 }
 
 function renderStations() {
+  // Deduplicate displayStations by normalized name (same station under multiple UUIDs)
+  function normalizeName(name) {
+    return (name || '').trim().toLowerCase().replace(/\s*[-–—]\s*(official|stream|radio|live|hd|fm|am|web)\s*/gi, '').replace(/\s+/g, ' ');
+  }
+  const seen = new Set();
+  displayStations = displayStations.filter(s => {
+    const key = normalizeName(s.name);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+
   const search = searchInput.value.toLowerCase().trim();
 
   // If there's a country filter active, use it as the primary filter instead of text search
   let filtered;
   if (currentFilter && currentFilter.type === 'country') {
-    filtered = allStations.filter(s => s.countrycode?.toLowerCase() === currentFilter.value.toLowerCase());
+    filtered = displayStations.filter(s => s.countrycode?.toLowerCase() === currentFilter.value.toLowerCase());
   } else if (search) {
     // Text search across name, tags, country code
     filtered = displayStations.filter(s =>
