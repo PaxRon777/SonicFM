@@ -32,27 +32,6 @@
         <li><a href="#favourites">Favourites</a></li>
         <li><a href="#countries">Countries</a></li>
       </ul>
-
-      <!-- Now Playing Mini -->
-      <div class="now-playing-mini" id="miniPlayer" style="display:none;">
-        <div class="mini-info">
-          <span class="mini-name" id="miniStationName">—</span>
-          <span class="mini-country" id="miniCountryCode">—</span>
-        </div>
-        <div class="mini-controls">
-          <button class="btn-icon mini-play-btn" id="miniPlayBtn" title="Pause">⏸</button>
-        </div>
-      </div>
-
-      <!-- Volume -->
-      <div class="volume-control">
-        <svg class="vol-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-          <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-        </svg>
-        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="75" />
-      </div>
     </nav>
 
     <!-- Main Content -->
@@ -120,25 +99,26 @@
 
     <!-- Player Bar -->
     <footer class="player-bar">
-      <div class="player-info">
-        <div class="player-artwork" id="artworkPlaceholder">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32">
-            <circle cx="12" cy="12" r="10"/>
-            <polygon points="10,8 16,12 10,16" fill="currentColor"/>
+      <!-- Left: Mini Panel (Radio Name + Volume) -->
+      <div class="mini-panel" id="miniPanel">
+        <span class="mini-panel-name" id="miniPanelName">No station selected</span>
+        <div class="mini-volume-control">
+          <svg class="vol-icon-small" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
           </svg>
-        </div>
-        <div class="player-text">
-          <span class="player-station-name" id="playerStationName">No station selected</span>
-          <span class="player-meta" id="playerMeta">—</span>
+          <input type="range" class="mini-volume-slider" id="miniVolumeSlider" min="0" max="100" value="75" />
         </div>
       </div>
 
+      <!-- Center: Controls -->
       <div class="player-controls">
         <button class="btn-icon btn-play" id="playBtn" title="Play/Pause">▶</button>
         <button class="btn-icon btn-fav" id="favBtn" title="Add to Favourites">♡</button>
       </div>
 
-      <!-- Progress / Status -->
+      <!-- Right: Status -->
       <div class="player-status" id="playerStatus">
         <span class="status-dot"></span>
         <span id="statusText">Ready</span>

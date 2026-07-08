@@ -23,16 +23,12 @@ const countrySearchInput = document.getElementById('countrySearchInput');
 const sortBySelect = document.getElementById('sortBy');
 const loadMoreBtn = document.getElementById('loadMoreBtn');
 const playBtn = document.getElementById('playBtn');
-const miniPlayBtn = document.getElementById('miniPlayBtn');
 const favBtn = document.getElementById('favBtn');
-const volumeSlider = document.getElementById('volumeSlider');
+const miniVolumeSlider = document.getElementById('miniVolumeSlider');
+const miniPanelName = document.getElementById('miniPanelName');
 const playerStationName = document.getElementById('playerStationName');
 const playerMeta = document.getElementById('playerMeta');
 const artworkPlaceholder = document.getElementById('artworkPlaceholder');
-const miniPlayer = document.getElementById('miniPlayer');
-const miniStationName = document.getElementById('miniStationName');
-const miniCountryCode = document.getElementById('miniCountryCode');
-const playerStatus = document.getElementById('statusText');
 const statusDot = document.querySelector('.status-dot');
 
 let currentStation = null;
@@ -429,17 +425,12 @@ function togglePlay() {
 
 function updatePlayerUI() {
   const name = currentStation?.name || 'No station selected';
-  playerStationName.textContent = name;
-  playerMeta.textContent = `${currentStation?.countrycode || ''} · ${(currentStation?.bitrate / 1000).toFixed(1)}k`;
-
-  // Mini player
-  miniPlayer.style.display = currentStation ? 'flex' : 'none';
-  miniStationName.textContent = name;
-  miniCountryCode.textContent = currentStation?.countrycode || '';
-
+  
+  // Update mini-panel name (bottom-left)
+  miniPanelName.textContent = name;
+  
   // Play button state
   playBtn.textContent = isPlaying ? '⏸' : '▶';
-  miniPlayBtn.textContent = isPlaying ? '⏸' : '▶';
 
   // Favourite button — normalize uuid from stationuuid to uuid for consistency
   const uuid = currentStation?.stationuuid || '';
@@ -457,7 +448,6 @@ function setStatus(text, state) {
 
 // ── Events ──
 playBtn.addEventListener('click', togglePlay);
-miniPlayBtn.addEventListener('click', togglePlay);
 
 favBtn.addEventListener('click', () => {
   if (!currentStation) return;
@@ -473,7 +463,7 @@ favBtn.addEventListener('click', () => {
   updatePlayerUI();
 });
 
-volumeSlider.addEventListener('input', () => { audioPlayer.volume = volumeSlider.value / 100; });
+miniVolumeSlider.addEventListener('input', () => { audioPlayer.volume = miniVolumeSlider.value / 100; });
 
 let searchDebounce = null;
 searchInput.addEventListener('input', () => {
