@@ -373,7 +373,10 @@ async function filterByCountry(countryName) {
   }
 
   // Radio Browser API expects countrycode (ISO code), not country name
-  const stations = await fetchStations({ countrycode: isoCode, limit: PAGE_SIZE });
+  const sortVal = sortBySelect.value;
+  const orderMap = { votes: 'votes', name: 'name', clickcount: 'clickcount' };
+  const sortOrder = orderMap[sortVal] || 'votes';
+  const stations = await fetchStations({ countrycode: isoCode, limit: PAGE_SIZE, order: sortOrder });
   
   console.log('Fetched', stations.length, 'stations for', isoCode);
   
