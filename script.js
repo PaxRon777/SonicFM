@@ -411,6 +411,10 @@ function getFlagImage(countryName) {
     "French Part Saint Martin": "saint-martin",
     "The Bahamas": "bahamas",
     "The Sudan": "sudan",
+    "The United States Minor Outlying Islands": "united-states-minor-outlying-islands",
+    "The Falkland Islands": "falkland-islands",
+    "The Lao Peoples Democratic Republic": "laos",
+    "The Republic Of Moldova": "moldova",
   };
   const flagName = FLAG_MAP[countryName];
   if (flagName) return flagName + '.png';
