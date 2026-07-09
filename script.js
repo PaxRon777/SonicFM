@@ -366,7 +366,55 @@ function renderCountries() {
 
 function getFlagImage(countryName) {
   if (!countryName) return 'globe.png';
-  // Convert country name to slug: lowercase, trim, replace spaces with hyphens
+  // Direct lookup for API country names that don't match flag filenames
+  const FLAG_MAP = {
+    "The United States Of America": "united-states",
+    "The United Kingdom Of Great Britain And Northern Ireland": "united-kingdom",
+    "The United Arab Emirates": "united-arab-emirates",
+    "The Russian Federation": "russia",
+    "The Republic Of Korea": "south-korea",
+    "The Democratic Peoples Republic Of Korea": "north-korea",
+    "The Holy See": "vatican-city",
+    "The Dominican Republic": "dominican-republic",
+    "The Central African Republic": "central-african-republic",
+    "The Democratic Republic Of The Congo": "democratic-republic-of-the-congo",
+    "The Congo": "congo",
+    "The Cook Islands": "cook-islands",
+    "The Cocos Keeling Islands": "cocos-islands",
+    "The Cayman Islands": "cayman-islands",
+    "The Comoros": "comoros",
+    "The Faroe Islands": "faroe-islands",
+    "The Gambia": "gambia",
+    "The Netherlands": "netherlands",
+    "The Niger": "niger",
+    "The Philippines": "philippines",
+    "The Sultanate Of Oman": "oman",
+    "The Marshall Islands": "marshall-islands",
+    "The Turks And Caicos Islands": "turks-and-caicos-islands",
+    "The French Southern Territories": "french-southern-territories",
+    "Islamic Republic Of Iran": "iran",
+    "Republic Of North Macedonia": "north-macedonia",
+    "State Of Palestine": "palestine",
+    "Syrian Arab Republic": "syria",
+    "Coted Ivoire": "cote-divoire",
+    "Cabo Verde": "cape-verde",
+    "Czechia": "czech-republic",
+    "Brunei Darussalam": "brunei",
+    "Bonaire": "bonaire",
+    "Taiwan, Republic Of China": "taiwan",
+    "United Republic Of Tanzania": "tanzania",
+    "Türkiye": "turkey",
+    "Federated States Of Micronesia": "micronesia",
+    "Bolivarian Republic Of Venezuela": "venezuela",
+    "Ascension And Tristan Da Cunha Saint Helena": "saint-helena",
+    "Dutch Part Sint Maarten": "sint-maarten",
+    "French Part Saint Martin": "saint-martin",
+    "The Bahamas": "bahamas",
+    "The Sudan": "sudan",
+  };
+  const flagName = FLAG_MAP[countryName];
+  if (flagName) return flagName + '.png';
+  // Fallback: convert country name to slug
   const slug = countryName.trim().toLowerCase().replace(/\s+/g, '-');
   return slug + '.png';
 }
