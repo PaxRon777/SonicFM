@@ -2,6 +2,9 @@
 
 A modern, dark-themed web application for discovering and streaming internet radio stations worldwide. Powered by the [Radio Browser API](https://www.radiobrowser.info/).
 
+![Alt Text](images/screenshot.jpg)
+![Alt Text](images/screenshot2.jpg)
+
 ## Features
 
 - **Discover Stations** — Browse thousands of live radio stations sorted by popularity, name, or click count.
@@ -80,11 +83,7 @@ Favourite stations are stored in `localStorage` as JSON objects containing the s
 
 ### Audio Player
 
-The built-in `<audio>` element streams the station's URL directly. Status indicators show:
-- **Green dot** — Streaming
-- **No dot** — Paused
-- **Red dot** — Error (stream unavailable)
-- **No dot (grey)** — Buffering
+The built-in `<audio>` element streams the station's URL directly. 
 
 ## API Reference
 
@@ -134,6 +133,12 @@ Country flags are stored in `images/flags/`. The `getFlagImage()` function in `s
 - Edge 90+
 - Safari 14+
 
-## License
+## 🧠 Development Note
 
-MIT
+This project was developed using **vibe coding**—an iterative, high-level conceptual development approach where the developer guides the "vibe" and intent while the AI handles the heavy lifting of implementation.
+
+> **Built with the help of:** Qwen3.6-35b-a3b model.
+
+## 📄 License
+
+Distributed under the MIT License. Read [LICENSE](LICENSE) here 
