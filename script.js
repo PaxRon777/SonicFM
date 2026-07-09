@@ -30,6 +30,8 @@ const playerStationName = document.getElementById('playerStationName');
 const playerMeta = document.getElementById('playerMeta');
 const artworkPlaceholder = document.getElementById('artworkPlaceholder');
 const statusDot = document.querySelector('.status-dot');
+const countryFlagHeader = document.getElementById('countryFlagHeader');
+const viewTitleRow = document.querySelector('.view-title-row');
 
 let currentStation = null;
 let isPlaying = false;
@@ -471,6 +473,12 @@ async function filterByCountry(countryName) {
   displayStations = [...allStations];
   currentPage = 1;
   currentFilter = { type: 'country', value: isoCode };
+
+  // Show country flag in header
+  const flagSrc = getFlagImage(countryName);
+  countryFlagHeader.src = `images/flags/${flagSrc}`;
+  countryFlagHeader.alt = `${countryName} flag`;
+  countryFlagHeader.style.display = 'block';
 
   console.log('Current filter:', currentFilter);
   renderStations();

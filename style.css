@@ -144,6 +144,8 @@ body {
 }
 
 .view-header h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 4px; }
+.view-header .view-title-row { display: flex; align-items: center; gap: 14px; }
+.view-header .country-flag-header { width: 36px; height: 26px; object-fit: cover; border-radius: 4px; box-shadow: 0 1px 4px rgba(0,0,0,0.4); flex-shrink: 0; }
 .subtitle { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 24px; }
 
 /* ── Search Bar ── */
