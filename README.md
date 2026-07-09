@@ -1,4 +1,4 @@
-# Sonic — Radio Streaming App
+# SonicFM — Radio Streaming App
 
 A modern, dark-themed web application for discovering and streaming internet radio stations worldwide. Powered by the [Radio Browser API](https://www.radiobrowser.info/).
 
