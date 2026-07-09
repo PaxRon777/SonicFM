@@ -351,9 +351,10 @@ function renderCountries() {
 
   sorted.forEach(c => {
     const card = document.createElement('div');
-    card.className = 'country-card';
+    card.className = 'country-card' + (currentFilter && currentFilter.type === 'country' && currentFilter.value === c.iso_3166_1 ? ' selected' : '');
+    const flagSrc = getFlagImage(c.name);
     card.innerHTML = `
-      <span class="country-flag">${getFlagEmoji(c.iso_3166_1_alpha2 || '')}</span>
+      <img class="country-flag" src="images/flags/${flagSrc}" alt="${escapeHtml(c.name)} flag" loading="lazy" onerror="this.style.display='none'" />
       <span class="country-name">${escapeHtml(c.name)}</span>
       <span class="country-count">${c.stationcount.toLocaleString()}</span>
     `;
@@ -363,10 +364,11 @@ function renderCountries() {
   });
 }
 
-function getFlagEmoji(code) {
-  if (!code || code.length !== 2) return '🌍';
-  const offset = 127397;
-  return String.fromCodePoint(...[...code.toUpperCase()].map(c => c.charCodeAt() + offset));
+function getFlagImage(countryName) {
+  if (!countryName) return 'globe.png';
+  // Convert country name to slug: lowercase, trim, replace spaces with hyphens
+  const slug = countryName.trim().toLowerCase().replace(/\s+/g, '-');
+  return slug + '.png';
 }
 
 async function filterByCountry(countryName) {

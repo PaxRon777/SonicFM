@@ -205,7 +205,7 @@ body {
 /* ── Country Grid ── */
 .country-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 10px; margin-bottom: 24px;
 }
 
@@ -217,9 +217,14 @@ body {
 
 .country-card:hover { border-color: var(--accent); transform: translateY(-1px); }
 
-.country-flag { font-size: 1.4rem; }
+.country-flag {
+  width: 28px; height: 20px; object-fit: cover; border-radius: 3px; flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
 .country-name { font-weight: 500; font-size: 0.85rem; color: var(--text-primary); }
 .country-count { font-size: 0.7rem; color: var(--text-muted); margin-left: auto; }
+
+.country-card.selected { border-color: var(--accent); box-shadow: 0 0 12px var(--accent-glow); }
 
 /* ── Player Bar ── */
 .player-bar {
