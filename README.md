@@ -133,7 +133,7 @@ Country flags are stored in `images/flags/`. The `getFlagImage()` function in `s
 - Edge 90+
 - Safari 14+
 
-## 🧠 Development Note
+## Development Note
 
 This project was developed using **vibe coding**—an iterative, high-level conceptual development approach where the developer guides the "vibe" and intent while the AI handles the heavy lifting of implementation.
 
